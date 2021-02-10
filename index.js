@@ -7,7 +7,6 @@ const passport = require('passport')
 const connectDB = require('./config/db')
 const bodyParser = require('body-parser')
 
-
 const routesAuth = require('./routes/index')
 const routesLocation = require('./routes/location')
 const routesShelter = require('./routes/shelter')

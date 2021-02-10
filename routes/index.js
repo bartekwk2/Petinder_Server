@@ -4,7 +4,7 @@ const router = express.Router()
 
 
 router.get('/', (req, res) => {
-    res.send('AsdasdaS')
+    res.send('Hello there')
 })
 
 router.get('/dashboard', (req, res) => {
