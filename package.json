@@ -1,0 +1,32 @@
+{
+  "name": "serwer",
+  "version": "1.0.0",
+  "description": "ap",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index",
+    "dev": "cross-env NODE_ENV=development nodemon server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^3.2.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.19.0",
+    "express": "^4.17.1",
+    "gridfs-stream": "^1.1.1",
+    "jwt-simple": "^0.5.6",
+    "mongoose": "^5.11.15",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "multer-gridfs-storage": "^4.2.0",
+    "nodemon": "^2.0.7",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "yarn": "^1.22.10"
+  }
+}
