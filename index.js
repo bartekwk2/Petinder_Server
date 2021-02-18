@@ -246,8 +246,23 @@ const util = require("util");
 
   //Socket stuff
 
-  const socket = require('./chat/chat')
-  socket()
+  const http = require('http').createServer(app)
+  const socket = require('socket.io')(http)
+  const Chat = require('./chat/chatModel')
+  
+  
+  console.log("tutaj")
+  
+  socket.on("connection", (userSocket) => {
+      console.log("User connected")
+      userSocket.on("send_message", (data) => {
+          userSocket.broadcast.emit("receive_message", data)
+          //let chatMessage = new Chat({ message: msg, sender: "Anonymous" });
+          //chatMessage.save();
+      })
+  })
+  
+  
 
 
 
