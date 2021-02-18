@@ -238,6 +238,20 @@ const util = require("util");
     })
 
 
+ // Sending notification
+
+  const sendNotif = require('./messaging/firebaseNotifications')
+  sendNotif()
+
+
+  //Socket stuff
+
+  const socket = require('./chat/chat')
+  socket()
+
+
+
+
 
 
 const PORT = process.env.PORT || 3000

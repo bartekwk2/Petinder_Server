@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const ShelterSchema = mongoose.Schema({
+    
     name : {
         type : String,
         required: false,
@@ -35,13 +36,16 @@ const ShelterSchema = mongoose.Schema({
         type: String,
         required : false
     },
-    animals : {
+    animals : [{
         type : String,
         enum : ['Dog','Cat','Rabbit']
-    }
+    }],
+    breed : [{
+        type : String
+    }]
 })
 
 ShelterSchema.index({location : "2dsphere"})
 
 
-module.exports = mongoose.model("Shelter",ShelterSchema)
+module.exports = mongoose.model("Breeding",ShelterSchema)

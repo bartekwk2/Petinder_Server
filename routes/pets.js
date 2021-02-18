@@ -171,6 +171,48 @@ router.post("/registerPet",
       }
     }
   }
+
+
+
+  //---------------------------------------------
+
+  // Getting all nearest pets with pagination
+
+  router.get("/petsNearby2", async (req, res) => {
+    const { longitude, latitude, distance,page = 1,limit = 10 } = req.query;
+    try {
+      
+      let pet = await Pet
+      .find({
+        location: {
+          $near: {
+            $maxDistance: distance,
+            $geometry: {
+              type: "Point",
+              coordinates: [longitude, latitude],
+            },
+          },
+        },
+      })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+
+      const count = await Pet.countDocuments();
+
+      res.status(200).json({
+        success: true,
+        pet: pet,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page.toInt()
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
   
 
 

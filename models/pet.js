@@ -77,6 +77,9 @@ const PetSchema = mongoose.Schema({
             required : true
         },
         required : false
+    },
+    price : {
+        type : String
     }
 })
 
