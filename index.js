@@ -252,6 +252,7 @@ const util = require("util");
   
   
   socket.on("connection", (userSocket) => {
+    userSocket.emit("hello","How is life")
       console.log("User connected")
       userSocket.on("send_message", (data) => {
           userSocket.broadcast.emit("receive_message", data)
