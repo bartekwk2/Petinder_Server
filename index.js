@@ -255,8 +255,8 @@ const util = require("util");
       console.log("User connected")
       userSocket.on("send_message", (data) => {
           userSocket.broadcast.emit("receive_message", data)
-          //let chatMessage = new Chat({ message: msg, sender: "Anonymous" });
-          //chatMessage.save();
+          let chatMessage = new Chat({ message: msg, sender: "Anonymous" });
+          chatMessage.save();
       })
   })
   
