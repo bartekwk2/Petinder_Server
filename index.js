@@ -251,8 +251,6 @@ const util = require("util");
   const Chat = require('./chat/chatModel')
   
   
-  console.log("tutaj")
-  
   socket.on("connection", (userSocket) => {
       console.log("User connected")
       userSocket.on("send_message", (data) => {
@@ -271,4 +269,4 @@ const util = require("util");
 
 const PORT = process.env.PORT || 3000
 
-app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
+http.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
