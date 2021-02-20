@@ -251,10 +251,25 @@ const PORT = process.env.PORT || 3000
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
 
 
+app.use('/test',(req, res) => res.sendFile(INDEX, { root: __dirname }))
+
+
+const INDEX = '/jndex.html';
+const socketIO = require('socket.io')
+const io = socketIO(server)
+
+io.on('connection', (socket) => {
+  console.log('Client connected');
+  socket.on('disconnect', () => console.log('Client disconnected'));
+});
+
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 
 
 
 
+
+/*
   //WebSocket stuff
   const ws = require('ws');
   const wsServer = new ws.Server({ server })
@@ -269,4 +284,6 @@ server.on('upgrade', (request, socket, head) => {
     wsServer.emit('connection', socket, request);
   });
 });
+
+*/
 
