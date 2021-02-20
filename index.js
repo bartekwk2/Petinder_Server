@@ -244,22 +244,23 @@ const util = require("util");
   sendNotif()
 
 
-  //WebSocket stuff
 
-
-const ws = require('ws');
-
- const wsServer = new ws.Server({ noServer: true })
-wsServer.on('connection', socket => {
-  console.log("Connected")
-  socket.on('message', message => console.log(message));
-});
 
 
 const PORT = process.env.PORT || 3000
-
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
 
+
+
+
+  //WebSocket stuff
+  const ws = require('ws');
+  const wsServer = new ws.Server({ noServer: true })
+  wsServer.on('connection', socket => {
+    console.log("Connected")
+    socket.on('message', message => console.log(message));
+  });
+  
 
 server.on('upgrade', (request, socket, head) => {
   wsServer.handleUpgrade(request, socket, head, socket => {
