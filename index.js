@@ -244,30 +244,25 @@ const util = require("util");
   sendNotif()
 
 
-  //Socket stuff
-
-  const http = require('http').createServer(app)
-  const socket = require('socket.io')(http)
-  const Chat = require('./chat/chatModel')
-  
-  
-  socket.on("connection", (userSocket) => {
-    userSocket.emit("hello","How is life")
-      console.log("User connected")
-      userSocket.on("send_message", (data) => {
-          userSocket.broadcast.emit("receive_message", data)
-          let chatMessage = new Chat({ message: msg, sender: "Anonymous" });
-          chatMessage.save();
-      })
-  })
-  
-  
+  //WebSocket stuff
 
 
+const ws = require('ws');
 
-
+ const wsServer = new ws.Server({ noServer: true })
+wsServer.on('connection', socket => {
+  console.log("Connected")
+  socket.on('message', message => console.log(message));
+});
 
 
 const PORT = process.env.PORT || 3000
 
-http.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
+const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
+
+
+server.on('upgrade', (request, socket, head) => {
+  wsServer.handleUpgrade(request, socket, head, socket => {
+    wsServer.emit('connection', socket, request);
+  });
+});
