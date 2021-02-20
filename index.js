@@ -253,9 +253,11 @@ const server = app.listen(PORT, console.log(`Server running in ${process.env.NOD
 
 
 
+
+
   //WebSocket stuff
   const ws = require('ws');
-  const wsServer = new ws.Server({ noServer: true })
+  const wsServer = new ws.Server({ server })
   wsServer.on('connection', socket => {
     console.log("Connected")
     socket.on('message', message => console.log(message));
@@ -267,3 +269,4 @@ server.on('upgrade', (request, socket, head) => {
     wsServer.emit('connection', socket, request);
   });
 });
+
