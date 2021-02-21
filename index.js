@@ -261,7 +261,7 @@ const io = socketIO(server)
 io.on('connection', (socket) => {
 
   socket.emit('startPing','go');
-  
+
   socket.on('disconnect', () => console.log('Client disconnected'));
 
   socket.on("send_message", (data) => {
@@ -273,7 +273,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('send_indiv_message',(data)=>{
-    io.in('abc123').emit('private_message',data)
+    io.sockets.in('abc123').emit('private_message',data)
   })
 
 });
