@@ -6,7 +6,7 @@ const User = require('../models/user')
 
 
 
-router.put("/update",auth, async(req,res) => {
+router.put("/update", async(req,res) => {
 
     const {location} = req.body
 

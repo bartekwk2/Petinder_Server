@@ -11,6 +11,7 @@ const routesAuth = require('./routes/index')
 const routesLocation = require('./routes/location')
 const routesShelter = require('./routes/shelter')
 const routesPet = require('./routes/pets')
+const routesChat = require('./routes/chat')
 const mongoose = require('mongoose')
 
 connectDB()
@@ -30,6 +31,7 @@ app.use(routesAuth)
 app.use(routesLocation)
 app.use(routesShelter)
 app.use(routesPet)
+app.use(routesChat)
 
 
 app.use(passport.initialize())
@@ -245,36 +247,31 @@ const util = require("util");
 
 
 
-// Socket stuff
-
 const PORT = process.env.PORT || 3000
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
 
 
-app.use('/test',(req, res) => res.sendFile(INDEX, { root: __dirname }))
+
+// Socket stuff
 
 
-const INDEX = '/jndex.html';
 const socketIO = require('socket.io')
 const io = socketIO(server)
 
+
 io.on('connection', socket => {
-  //Get the chatID of the user and join in a room of the same name
   chatID = socket.handshake.query.chatID
   socket.join(chatID)
 
-  //Leave the room if the user closes the socket
   socket.on('disconnect', () => {
       socket.leave(chatID)
   })
 
-  //Send message to only a particular user
   socket.on('send_message', message => {
       receiverChatID = message.receiverChatID
       senderChatID = message.senderChatID
       content = message.content
 
-      //Send message to only that particular id
       socket.in(receiverChatID).emit('receive_message', {
           'content': content,
           'senderChatID': senderChatID,
