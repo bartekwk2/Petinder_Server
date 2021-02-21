@@ -245,7 +245,7 @@ const util = require("util");
 
 
 
-
+// Socket stuff
 
 const PORT = process.env.PORT || 3000
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
@@ -259,34 +259,24 @@ const socketIO = require('socket.io')
 const io = socketIO(server)
 
 io.on('connection', (socket) => {
-  console.log('Client connected');
   socket.on('disconnect', () => console.log('Client disconnected'));
+
   socket.on("send_message", (data) => {
     socket.emit("receive_message", data)
 })
+
+
+  socket.on('room',(room)=>{
+    socket.join(room)
+  })
+
+  socket.on('send_indiv_message',(data)=>{
+    socket.to('abc123').emit('private_message',data)
+  })
+
 });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 
 
-
-
-
-/*
-  //WebSocket stuff
-  const ws = require('ws');
-  const wsServer = new ws.Server({ server })
-  wsServer.on('connection', socket => {
-    console.log("Connected")
-    socket.on('message', message => console.log(message));
-  });
-  
-
-server.on('upgrade', (request, socket, head) => {
-  wsServer.handleUpgrade(request, socket, head, socket => {
-    wsServer.emit('connection', socket, request);
-  });
-});
-
-*/
 
