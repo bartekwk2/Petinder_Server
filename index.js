@@ -258,24 +258,29 @@ const INDEX = '/jndex.html';
 const socketIO = require('socket.io')
 const io = socketIO(server)
 
-io.on('connection', (socket) => {
+io.on('connection', socket => {
+  //Get the chatID of the user and join in a room of the same name
+  chatID = socket.handshake.query.chatID
+  socket.join(chatID)
 
-  socket.emit('startPing','go');
-
-  socket.on('disconnect', () => console.log('Client disconnected'));
-
-  socket.on("send_message", (data) => {
-    socket.emit("receive_message", data)
-})
-
-  socket.on('room',(room)=>{
-    socket.join(room)
+  //Leave the room if the user closes the socket
+  socket.on('disconnect', () => {
+      socket.leave(chatID)
   })
 
-  socket.on('send_indiv_message',(data)=>{
-    io.sockets.in('abc123').emit('private_message',data)
-  })
+  //Send message to only a particular user
+  socket.on('send_message', message => {
+      receiverChatID = message.receiverChatID
+      senderChatID = message.senderChatID
+      content = message.content
 
+      //Send message to only that particular id
+      socket.in(receiverChatID).emit('receive_message', {
+          'content': content,
+          'senderChatID': senderChatID,
+          'receiverChatID':receiverChatID,
+      })
+  })
 });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
