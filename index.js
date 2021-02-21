@@ -259,6 +259,9 @@ const socketIO = require('socket.io')
 const io = socketIO(server)
 
 io.on('connection', (socket) => {
+
+  socket.emit('startPing','go');
+  
   socket.on('disconnect', () => console.log('Client disconnected'));
 
   socket.on("send_message", (data) => {
