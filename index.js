@@ -265,13 +265,12 @@ io.on('connection', (socket) => {
     socket.emit("receive_message", data)
 })
 
-
   socket.on('room',(room)=>{
     socket.join(room)
   })
 
   socket.on('send_indiv_message',(data)=>{
-    socket.to('abc123').emit('private_message',data)
+    io.in('abc123').emit('private_message',data)
   })
 
 });
