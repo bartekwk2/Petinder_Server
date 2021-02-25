@@ -12,6 +12,7 @@ const routesLocation = require('./routes/location')
 const routesShelter = require('./routes/shelter')
 const routesPet = require('./routes/pets')
 const routesChat = require('./routes/chat')
+const routesConst = require('./routes/const')
 const mongoose = require('mongoose')
 
 connectDB()
@@ -32,6 +33,7 @@ app.use(routesLocation)
 app.use(routesShelter)
 app.use(routesPet)
 app.use(routesChat)
+app.use(routesConst)
 
 
 app.use(passport.initialize())
