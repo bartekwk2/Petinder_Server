@@ -199,6 +199,9 @@ const util = require("util");
     app.post("/upload4", uploadFiles2);
 
 
+
+
+
     //Get image
 
         let gfs
@@ -240,6 +243,19 @@ const util = require("util");
         res.send(photosMap)
       })
     })
+
+
+
+    app.post('/files/del', (req, res) => {
+      const obj_id = new mongoose.Types.ObjectId(req.body.id );
+      gfs.delete( obj_id ,(err, gridStore) => {
+               if (err) {
+                   return res.status(404).json({ err });
+               }
+               else{
+                return   res.status(200).json({ success: true,}) }
+           });
+   });
 
 
  // Sending notification

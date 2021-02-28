@@ -72,4 +72,24 @@ router.get("/catNames", async (req, res) => {
     }
   })
 
+  router.get("/dogNamesQuery/:searchString", async (req, res) => {
+    try {
+      let names = await 
+      dogNames.find({"name": {
+        "$regex": ".*"+req.params.searchString+".*",
+        '$options' : 'i',
+      }})
+      res.status(200).json({
+        success: true,
+        pet: names,
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
+
   module.exports = router
