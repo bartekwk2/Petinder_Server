@@ -245,7 +245,8 @@ const util = require("util");
     })
 
 
-
+    //Delete photo
+    
     app.post('/files/del', (req, res) => {
       const obj_id = new mongoose.Types.ObjectId(req.body.id );
       gfs.delete( obj_id ,(err, gridStore) => {

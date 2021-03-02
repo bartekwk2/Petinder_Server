@@ -10,7 +10,10 @@ var userSchema = new Schema({
     password: {
         type: String,
         require: true
-    }
+    },
+    photosRef : [{
+        type:String
+    }],
 })
 
 userSchema.pre('save', function (next) {

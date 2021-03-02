@@ -55,7 +55,7 @@ var functions = {
         else {
             return res.json({success: false, msg: 'No Headers'})
         }
-    }
+    },
 }
 
 module.exports = functions
