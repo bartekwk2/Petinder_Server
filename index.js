@@ -290,11 +290,13 @@ io.on('connection', socket => {
       receiverChatID = message.receiverChatID
       senderChatID = message.senderChatID
       content = message.content
+      dateOfSend = message.dateOfSend
 
       socket.in(receiverChatID).emit('receive_message', {
           'content': content,
           'senderChatID': senderChatID,
           'receiverChatID':receiverChatID,
+          'dateOfSend':dateOfSend
       })
   })
 });
