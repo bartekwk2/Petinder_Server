@@ -299,11 +299,10 @@ io.on('connection', socket => {
           'receiverChatID':receiverChatID,
           'dateOfSend':dateOfSend
       })
-
-        await Individaul
-        .findOneAndUpdate(
-            { users : {$all : ["6011dc09b1d3b41d54ab8653","60131f135fe3d934ccc76082"]}},
-            {$addToSet : {messages : message}})
+      await Individaul
+      .findOneAndUpdate(
+          { users : {$all : [message.senderChatID, message.receiverChatID]}},
+          {$addToSet : {messages : message}})
   })
 });
 
