@@ -286,7 +286,7 @@ io.on('connection', socket => {
       socket.leave(chatID)
   })
 
-  socket.on('send_message', message => {
+  socket.on('send_message',async (message) => {
       receiverChatID = message.receiverChatID
       senderChatID = message.senderChatID
       content = message.content
@@ -298,6 +298,12 @@ io.on('connection', socket => {
           'receiverChatID':receiverChatID,
           'dateOfSend':dateOfSend
       })
+
+
+        await Individaul
+        .findOneAndUpdate(
+            { users : {$all : [senderChatID,receiverChatID]}},
+            {$addToSet : {messages : message}})
   })
 });
 
