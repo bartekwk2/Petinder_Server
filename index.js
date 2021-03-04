@@ -307,7 +307,7 @@ io.on('connection', socket => {
             message : content,
             senderID : senderChatID,
             receiverID : receiverChatID,
-           // dateOfSend : dateOfSend
+            dateOfSend : dateOfSend
           }}})
   })
 });
