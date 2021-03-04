@@ -21,7 +21,7 @@ const oneToOneConvSchema= mongoose.Schema(
                 required: true
             },
             dateOfSend : {
-                type : Date,
+                type : String,
             },
 
         }],
