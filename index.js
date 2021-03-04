@@ -303,7 +303,12 @@ io.on('connection', socket => {
       await Individaul
       .findOneAndUpdate(
           { users : {$all : [message.senderChatID, message.receiverChatID]}},
-          {$addToSet : {messages : message}})
+          {$addToSet : {messages : {
+            message : content,
+            senderID : senderChatID,
+            receiverID : receiverChatID,
+            dateOfSend : dateOfSend
+          }}})
   })
 });
 
