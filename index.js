@@ -288,10 +288,10 @@ io.on('connection', socket => {
   })
 
   socket.on('send_message',async (message) => {
-      receiverChatID = message.receiverChatID
-      senderChatID = message.senderChatID
-      content = message.content
-      dateOfSend = message.dateOfSend
+      let receiverChatID = message.receiverChatID
+      let senderChatID = message.senderChatID
+      let content = message.content
+      let dateOfSend = message.dateOfSend
 
       socket.in(receiverChatID).emit('receive_message', {
           'content': content,
@@ -307,7 +307,7 @@ io.on('connection', socket => {
             message : content,
             senderID : senderChatID,
             receiverID : receiverChatID,
-            dateOfSend : dateOfSend
+           // dateOfSend : dateOfSend
           }}})
   })
 });
