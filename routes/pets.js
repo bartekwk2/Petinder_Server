@@ -69,7 +69,7 @@ router.post("/registerPet",
       .find({
         location: {
           $near: {
-            $maxDistance: distance/111.12,
+            $maxDistance: distance,
             $geometry: {
               type: "Point",
               coordinates: [longitude, latitude],
@@ -203,7 +203,7 @@ router.post("/registerPet",
         success: true,
         pet: pet,
         totalPages: Math.ceil(count / limit),
-        currentPage: page.toInt()
+        currentPage: page
       })
     } catch (err) {
       console.log(err);

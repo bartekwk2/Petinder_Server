@@ -14,7 +14,18 @@ var userSchema = new Schema({
     photosRef : [{
         type:String
     }],
+    pets:[{
+       petType: {
+           type : String,
+         enum : ['Own','Liked','Disliked']},
+        petRef : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Pet',
+        }
+    }]
 })
+
+userSchema.index({"pets.petRef": 1, "pets.petType": 1});
 
 userSchema.pre('save', function (next) {
     var user = this;
