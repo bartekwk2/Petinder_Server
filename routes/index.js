@@ -110,27 +110,6 @@ router.get('/getUserData', async (req, res) => {
     }
   }
 
-  //To na dole potem połączyć i usunąć
-
-  router.get('/getYourPetIds',async(req,res)=>{
-
-    const {id} = req.query;
-
-    try{
-      let user = await User.findOne({_id : id}).select('pets.petRef')
-      let userPets = user.pets.map(pet=>mongoose.Types.ObjectId(pet.petRef))
-      res.status(200).json({
-        success: true,
-        user: userPets,
-      })
-    }catch{
-      return res.status(500).json({
-        success: false,
-        message: "Internal Server Error",
-      })
-    }
-  })
-
 
 
 
