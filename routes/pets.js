@@ -6,7 +6,9 @@ const router = express.Router()
 router.post("/registerPet",
     async (req, res) => {
       try {
-        const { name, shelterId,typeOfPet,typeOfPetOwner,dateOfAdd,age,vaccinates,character,imageRefs,location } = req.body;
+        const { name, shelterId,typeOfPet,typeOfPetOwner,dateOfAdd,age,
+          vaccinates,character,imageRefs,location,desc,vaccinateFirstCheck,vaccinateSecondCheck,
+          vaccinateThirdCheck} = req.body;
           let pet = new Pet({
             name : name,
             shelter :shelterId,
@@ -14,7 +16,11 @@ router.post("/registerPet",
             typeOfPetOwner : typeOfPetOwner,
             dateOfAdd : dateOfAdd,
             age : age,
+            desc : desc,
             vaccinates : vaccinates,
+            vaccinateFirstCheck:vaccinateFirstCheck,
+            vaccinateSecondCheck : vaccinateSecondCheck,
+            vaccinateThirdCheck : vaccinateThirdCheck,
             character : character,
             imageRefs : imageRefs,
             numberOfViews : 0,
@@ -23,7 +29,7 @@ router.post("/registerPet",
           await pet.save();
           res.status(200).json({
             success: true,
-            shelter: pet.id,
+            pet: pet.id,
           });
         
       } catch (err) {

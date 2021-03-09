@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const PetSchema = mongoose.Schema({
 
-
     name : {
         type : String,
         required: true,
@@ -13,12 +12,10 @@ const PetSchema = mongoose.Schema({
         required : false,
     },
     typeOfPetOwner : {
-        type : String,
-         enum : ['Shelter','Individual','Breeding']
+        type : Number,
     },
     typeOfPet : {
-        type : String,
-         enum : ['Dog','Cat','Rabbit']
+        type : Number
     },
     dateOfAdd : {
         type : Date,
@@ -26,13 +23,28 @@ const PetSchema = mongoose.Schema({
     numberOfViews :{
         type : Number,
     },
+    desc :{
+        type:String
+    },
     age : {
         type : Number,
     },
     vaccinates : {
-        type : [String]
+        type : String
+    },
+    vaccinateFirstCheck : {
+        type : Boolean
+    },
+    vaccinateSecondCheck : {
+        type : Boolean
+    },
+    vaccinateThirdCheck : {
+        type : Boolean
     },
     character : {
+        health : {
+            type : mongoose.Decimal128,
+        },
         active : {
             type : mongoose.Decimal128,
         },
