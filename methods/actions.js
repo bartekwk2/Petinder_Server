@@ -3,23 +3,28 @@ var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
 
 var functions = {
-    addNew: function (req, res) {
+    addNew: async (req, res)=> {
         if ((!req.body.name) || (!req.body.password)) {
-            res.json({success: false, msg: 'Enter all fields'})
+            res.json({success: false, msg: 'Uzupełnij wszystkie pola'})
         }
         else {
-            var newUser = User({
-                name: req.body.name,
-                password: req.body.password
-            });
-            newUser.save(function (err, newUser) {
-                if (err) {
-                    res.json({success:  false, msg: 'Failed to save'})
-                }
-                else {
-                    res.json({success: true, msg: 'Successfully saved'})
-                }
-            })
+            var checkUser = await User.findOne({name:req.body.name})
+            if(!checkUser){
+                var newUser = User({
+                    name: req.body.name,
+                    password: req.body.password
+                });
+                newUser.save(function (err, newUser) {
+                    if (err) {
+                        res.json({success:  false, id: newUser.id})
+                    }
+                    else {
+                        res.json({success: true, id: newUser.id})
+                    }
+                })
+            }else{
+                res.json({success: false, msg: 'Użytkownik o danym mailu już istnieje'})
+            }
         }
     },
     authenticate: function (req, res) {
