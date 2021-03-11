@@ -28,7 +28,7 @@ var functions = {
         }, function (err, user) {
                 if (err) throw err
                 if (!user) {
-                    res.status(403).send({success: false, msg: 'Authentication Failed, User not found',id:""})
+                    res.status(403).send({success: false, msg: 'Logowanie nieudane, mail nie znaleziony',id:""})
                 }
                 else {
                     user.comparePassword(req.body.password, function (err, isMatch) {
@@ -37,7 +37,7 @@ var functions = {
                             res.json({success: true, token: token,id:user.id})
                         }
                         else {
-                            return res.status(403).json({success: false, msg: 'Authentication failed, wrong password',id:""})
+                            return res.status(403).json({success: false, msg: 'Logowanie nieudane, hasło nie znalezione',id:""})
                         }
                     })
                 }
