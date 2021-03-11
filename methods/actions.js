@@ -37,7 +37,7 @@ var functions = {
                             res.json({success: true, token: token,id:user.id})
                         }
                         else {
-                            return res.status(403).json({success: false, msg: 'Authentication failed, wrong password'})
+                            return res.status(403).json({success: false, msg: 'Authentication failed, wrong password',id:""})
                         }
                     })
                 }
