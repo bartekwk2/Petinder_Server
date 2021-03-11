@@ -23,7 +23,7 @@ var functions = {
                     }
                 })
             }else{
-                res.json({success: false, msg: 'Użytkownik o danym mailu już istnieje'})
+                res.json({success: false, id:"-1"})
             }
         }
     },
