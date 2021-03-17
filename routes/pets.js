@@ -169,8 +169,6 @@ router.post("/registerPet",
 
 
 
-  //---------------------------------------------
-
   // Getting all nearest pets with pagination
 
   router.get("/petsNearby2", async (req, res) => {
@@ -192,12 +190,9 @@ router.post("/registerPet",
       .limit(limit * 1)
       .skip((page - 1) * limit)
 
-      const count = await Pet.countDocuments();
-
       res.status(200).json({
         success: true,
         pet: pet,
-        totalPages: Math.ceil(count / limit),
         currentPage: page
       })
     } catch (err) {
