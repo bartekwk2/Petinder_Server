@@ -87,27 +87,6 @@ router.post("/registerPet",
         success: true,
         pet: pet,
       })
-
-      /*
-      .populate('shelter',['name','adress'])
-      .exec(function (err, pet) {
-        if (err){
-          console.log(err)
-          return res.status(500).json({
-            success: false,
-            message: "Internal Server Error",
-          })
-        }else{
-        console.log('The shelter is %s', pet.shelter)
-        res.status(200).json({
-          success: true,
-          pet: pet,
-        })
-      }
-      })
-      */
-
-
     } catch (err) {
       console.log(err);
       return res.status(500).json({
@@ -122,23 +101,33 @@ router.post("/registerPet",
   // Getting all nearest pets with queries 
   router.post("/petsNearbyQueries", async (req, res) => {
     const { longitude, latitude, distance,typeOfPet,typeOfPetOwner,ageStart,ageStop,
-      active,smart,loud,likesEating,familyFriendly,peaceful,inteligence,wellBehaved,knowTricks,fearfull } = req.body;
+      active,smart,loud,likesEating,familyFriendly,peaceful,inteligence,wellBehaved,knowTricks,fearfull,gender,petBreed } = req.body;
     try {
+
+      var petBreedChosen
+      if(petBreed==null){
+        petBreedChosen = "notGiven"
+      }else{
+        petBreedChosen = petBreed
+      }
+      console.log(petBreedChosen)
+
       let pet = await Pet
       .find({
         location: {
           $near: {
-            $maxDistance: distance/111.12,
+            $maxDistance: distance,
             $geometry: {
               type: "Point",
               coordinates: [longitude, latitude],
             },
           },
         },
-         //Suwak automatycznie będzie miał cały zakres a tam wyżej checkboxy do zaznaczania
-        typeOfPet : typeOfPet?typeOfPet: { $in: ['Dog', 'Cat', 'Rabbit'] },
-        typeOfPetOwner : typeOfPetOwner?typeOfPetOwner : {$in: ['Shelter','Individual','Breeding']},
+        typeOfPet : typeOfPet?typeOfPet: { $in: [0,1,2,3,4,5,6,7] },
+        typeOfPetOwner : typeOfPetOwner?typeOfPetOwner : {$in: [0,1,2]},
         age: { $gt: ageStart-1, $lt: ageStop-1 },
+        gender : gender ? gender : {$in:[0,1]},
+        petBreed : petBreed? petBreed : {$ne : petBreedChosen},
         'character.active' : checkCharacter(active),
         'character.smart': checkCharacter(smart),
         'character.loud': checkCharacter(loud),
@@ -168,11 +157,11 @@ router.post("/registerPet",
       return {$gt:-1}
     }else{
       switch(trait){
-        case 'small' : 
+        case 0 : 
           return {$gte: 1, $lte: 2}
-        case 'medium' :
+        case 1 :
           return {$gte: 2.5, $lte: 3.5}
-        case 'large' :
+        case 2 :
           return {$gte: 4, $lte: 5}
       }
     }

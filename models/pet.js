@@ -17,17 +17,24 @@ const PetSchema = mongoose.Schema({
     typeOfPet : {
         type : Number
     },
+    petBreed : {
+        type : String
+    },
     dateOfAdd : {
         type : Date,
     },
     numberOfViews :{
         type : Number,
     },
+
     desc :{
         type:String
     },
     age : {
         type : Number,
+    },
+    gender : {
+        type:Number,
     },
     vaccinates : {
         type : String
