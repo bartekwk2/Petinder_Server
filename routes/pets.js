@@ -82,7 +82,7 @@ router.post("/registerPet",
             },
           },
         },
-        typeOfPetOwner : typeOfPetOwner?typeOfPetOwner : {$in: [0,1,2]},
+        typeOfPetOwner : {$in: typeOfPetOwner},
       })
       res.status(200).json({
         success: true,
