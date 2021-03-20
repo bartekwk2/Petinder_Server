@@ -69,7 +69,7 @@ router.post("/registerPet",
 
 // Getting all nearest pets
   router.post("/petsNearby", async (req, res) => {
-    const { longitude, latitude, distance,type } = req.body;
+    const { longitude, latitude, distance,typeOfPetOwner } = req.body;
     try {
       let pet = await Pet
       .find({
@@ -82,6 +82,7 @@ router.post("/registerPet",
             },
           },
         },
+        typeOfPetOwner : typeOfPetOwner?typeOfPetOwner : {$in: [0,1,2]},
       })
       res.status(200).json({
         success: true,
