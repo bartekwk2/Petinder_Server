@@ -113,9 +113,7 @@ router.get('/getUserData', async (req, res) => {
   router.put('/changeStatus',async(req,res)=>{
 
     try{
-
       const {id,lastActive,isActive} = req.body
-
       const filter = { _id : id };
       const update = { 
         isActive: isActive,
@@ -218,6 +216,30 @@ router.get('/getUserData', async (req, res) => {
         message: "Internal Server Error",
       })
     }
+  })
+
+  router.get("/friendsMainScreen",async (req,res)=>{
+    try{
+      const {myId} = req.query
+
+      friends = await User
+      .findById(myId)
+      .select('name photosRef isActive lastActive')
+
+      return res.status(200).json({
+        success: true,
+        friends: friends,
+      })
+      
+    }catch(err){
+      console.log(err)
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+
+
   })
 
 module.exports = router
