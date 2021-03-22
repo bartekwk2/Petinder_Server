@@ -14,6 +14,12 @@ var userSchema = new Schema({
     photosRef : [{
         type:String
     }],
+    isActive : {
+        type: Boolean
+    },
+    lastActive : {
+        type:String
+    },
     pets:[{
        petType: {
            type : String,
@@ -22,7 +28,36 @@ var userSchema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Pet',
         }
-    }]
+    }],
+    friends : [{
+
+        friendRef : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',},
+
+    lastMsg : {
+        message:{
+            type: String,
+            required: true
+        },
+        senderID:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref : "User",
+            index : true,
+            required: true,
+        },
+        receiverID : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : "User",
+            index : true,
+            required: true
+        },
+        dateOfSend : {
+            type : Date,
+        },
+    }
+}]
+
 })
 
 userSchema.index({"pets.petRef": 1, "pets.petType": 1});
