@@ -53,7 +53,7 @@ var userSchema = new Schema({
             required: true
         },
         dateOfSend : {
-            type : Date,
+            type : String,
         },
     }
 }]
