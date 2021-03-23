@@ -300,15 +300,31 @@ io.on('connection', socket => {
           'dateOfSend':dateOfSend
       })
 
+      let sender = message.senderChatID
+      let receiver = message.receiverChatID
+      let messageNow = {
+        message : content,
+        senderID : senderChatID,
+        receiverID : receiverChatID,
+        dateOfSend : dateOfSend
+      }
+
       await Individaul
       .findOneAndUpdate(
-          { users : {$all : [message.senderChatID, message.receiverChatID]}},
-          {$addToSet : {messages : {
-            message : content,
-            senderID : senderChatID,
-            receiverID : receiverChatID,
-            dateOfSend : dateOfSend
-          }}})
+          { users : {$all : [sender, receiver]}},
+          {$addToSet : {messages : messageNow}})
+
+     await User
+          .findOneAndUpdate(
+            {_id:sender,
+            'friends.friendRef' : receiver},
+            {$set : {'friends.$.lastMsg' : messageNow}})
+
+      await User
+            .findOneAndUpdate(
+              {_id:receiver,
+              'friends.friendRef' : sender},
+              {$set : {'friends.$.lastMsg' : messageNow}})
   })
 });
 
