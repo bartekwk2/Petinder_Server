@@ -277,6 +277,7 @@ const server = app.listen(PORT, console.log(`Server running in ${process.env.NOD
 const socketIO = require('socket.io')
 const io = socketIO(server)
 const Individaul = require('./models/chat/individualConversation')
+const User = require('./models/user')
 
 
 io.on('connection', socket => {
@@ -309,7 +310,7 @@ io.on('connection', socket => {
         dateOfSend : dateOfSend
       }
 
-      await Individaul
+    await Individaul
       .findOneAndUpdate(
           { users : {$all : [sender, receiver]}},
           {$addToSet : {messages : messageNow}})
