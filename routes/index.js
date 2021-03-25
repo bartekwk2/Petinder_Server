@@ -238,8 +238,27 @@ router.get('/getUserData', async (req, res) => {
         message: "Internal Server Error",
       })
     }
-
-
   })
+
+  router.get("/friendsQuery/:searchString", async (req, res) => {
+    try {
+      let names = await 
+      User.find({"name": {
+        "$regex": ".*"+req.params.searchString+".*",
+        '$options' : 'i',
+      }}).select('name photosRef isActive lastActive')
+      res.status(200).json({
+        success: true,
+        pet: names,
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
+
 
 module.exports = router

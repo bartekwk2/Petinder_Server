@@ -9,10 +9,10 @@ admin.initializeApp({
 
 
   // Send notification to topic
-async function sendNotification(){
+async function sendNotification(body){
 
     try{
-        var payload = {notification : {title : 'abcd',body : 'aaa',},data : {click_action : 'FLUTTER_NOTIFICATION_CLICK'}}
+        var payload = {notification : {title : 'abcd',body : body,},data : {click_action : 'FLUTTER_NOTIFICATION_CLICK'}}
         await admin.messaging().sendToTopic('Event',payload)
     }catch(error){
         console.log(error)

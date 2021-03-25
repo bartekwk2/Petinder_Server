@@ -59,7 +59,7 @@ var userSchema = new Schema({
 }]
 
 })
-
+userSchema.index({name : 'text'})
 userSchema.index({"pets.petRef": 1, "pets.petType": 1});
 
 userSchema.pre('save', function (next) {
