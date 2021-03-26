@@ -240,18 +240,33 @@ router.get('/getUserData', async (req, res) => {
     }
   })
 
-  router.get("/friendsQuery/:searchString", async (req, res) => {
-    try {
+
+  router.get("/friendsQuery",async (req,res)=>{
+    try{
+      const {myId,searchString} = req.query
+      let ids = await User.findById(myId).select("friends.friendRef")
+
+      let friends = ids.friends
+      let friendIds = friends.map(friend=>{
+        return friend.friendRef
+      })
+
       let names = await 
-      User.find({"name": {
-        "$regex": ".*"+req.params.searchString+".*",
-        '$options' : 'i',
-      }}).select('name photosRef isActive lastActive')
+      User.find({
+        "name": {
+        "$regex": ".*"+searchString+".*",
+        '$options' : 'i',},
+
+        "_id": {
+          $nin : friendIds}
+      },    
+        ).select('name photosRef isActive lastActive')
+
       res.status(200).json({
         success: true,
-        pet: names,
+        pet : names
       })
-    } catch (err) {
+    }catch(err){
       console.log(err);
       return res.status(500).json({
         success: false,
