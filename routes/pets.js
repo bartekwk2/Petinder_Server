@@ -210,6 +210,23 @@ router.post("/registerPet",
       })
     }
   })
+
+  router.get("/laterDelete",async (req,res)=>{
+    try{
+      let pet = await Pet.findById("604783c4ccc2944444f22d4d")
+      res.status(200).json({
+        success: true,
+        pet: pet,
+      })
+    }catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+
+  })
   
 
 
