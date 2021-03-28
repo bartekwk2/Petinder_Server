@@ -36,6 +36,42 @@ router.get('/getUserData', async (req, res) => {
     }
   })
 
+  router.get('/myPetsType',async(req,res)=>{
+    const {id} = req.query
+    try{
+      await User.aggregate([
+        {$match: { "_id" : mongoose.Types.ObjectId(id) } },
+        {$project : {'pets':1,"_id":0}},
+        {$unwind : {path:'$pets',
+        preserveNullAndEmptyArrays: true}},
+        {$match : {'pets.petType' : 'Own'}},
+        {$project : {'pets.petRef':1}},
+        {$lookup: {from: 'pets', localField: 'pets.petRef', foreignField:'_id', as: 'petOut'}},
+        {$group : {'_id':'$_id','petOut': {'$push': '$petOut'}}},
+      ]).exec(async (err, pets) => {
+        if (err){
+          console.log(err);
+          return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+          })
+        }else{
+          console.log(pets)
+          res.status(200).json({
+            success: true,
+            pets: pets[0],
+          })
+        }
+    })
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
+
   router.post('/addPetToUser',async (req, res) => {
     const { id,pet } = req.body;
     try {
@@ -256,7 +292,6 @@ router.get('/getUserData', async (req, res) => {
         "name": {
         "$regex": ".*"+searchString+".*",
         '$options' : 'i',},
-
         "_id": {
           $nin : friendIds}
       },    

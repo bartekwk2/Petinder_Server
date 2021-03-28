@@ -97,8 +97,6 @@ router.post("/registerPet",
     }
   })
 
-
-
   // Getting all nearest pets with queries 
   router.post("/petsNearbyQueries", async (req, res) => {
     const { longitude, latitude, distance,typeOfPet,typeOfPetOwner,ageStart,ageStop,
@@ -106,7 +104,6 @@ router.post("/registerPet",
 
     const {page = 1,limit = 10} = req.query
     try {
-
       var petBreedChosen
       if(petBreed==null){
         petBreedChosen = "notGiven"
@@ -177,11 +174,9 @@ router.post("/registerPet",
 
 
   // Getting all nearest pets with pagination
-
   router.get("/petsNearby2", async (req, res) => {
     const { longitude, latitude, distance,page = 1,limit = 10 } = req.query;
     try {
-      
       let pet = await Pet
       .find({
         location: {
@@ -211,6 +206,24 @@ router.post("/registerPet",
     }
   })
 
+  
+  router.put("/updatePetViews",async(req,res)=>{
+    const {id} = req.query;
+    try{
+      await Pet.findOneAndUpdate({_id: id},
+        {$inc : {'numberOfViews':1}})
+        return res.status(200).json({
+          success: true,
+        })
+    }catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
+
   router.get("/laterDelete",async (req,res)=>{
     try{
       let pet = await Pet.findById("604783c4ccc2944444f22d4d")
@@ -225,12 +238,7 @@ router.post("/registerPet",
         message: "Internal Server Error",
       })
     }
-
   })
-  
-
-
-
   
 
   module.exports = router
