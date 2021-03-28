@@ -37,14 +37,14 @@ router.get('/getUserData', async (req, res) => {
   })
 
   router.get('/myPetsType',async(req,res)=>{
-    const {id} = req.query
+    const {id,typePet} = req.query
     try{
       await User.aggregate([
         {$match: { "_id" : mongoose.Types.ObjectId(id) } },
         {$project : {'pets':1,"_id":0}},
         {$unwind : {path:'$pets',
         preserveNullAndEmptyArrays: true}},
-        {$match : {'pets.petType' : 'Own'}},
+        {$match : {'pets.petType' : typePet}},
         {$project : {'pets.petRef':1}},
         {$lookup: {from: 'pets', localField: 'pets.petRef', foreignField:'_id', as: 'petOut'}},
         {$group : {'_id':'$_id','petOut': {'$push': '$petOut'}}},
