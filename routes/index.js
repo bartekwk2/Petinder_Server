@@ -16,6 +16,27 @@ router.post('/adduser', actions.addNew)
 
 router.post('/authenticate', actions.authenticate)
 
+router.post('/googleAuth',async (req, res)=> {
+
+      var checkUser = await User.findOne({name:req.body.name})
+      if(!checkUser){
+          var newUser = User({
+              name: req.body.name,
+              password: req.body.password
+          });
+          newUser.save(function (err, newUser) {
+              if (err) {
+                res.status(500).json({success:  false})
+              }
+              else {
+                res.status(200).json({success: true, id: newUser.id})
+              }
+          })
+      }else{
+        res.status(200).json({success: true, id: checkUser.id})
+      }
+})
+
 router.get('/getinfo', actions.getinfo)
 
 router.get('/getUserData', async (req, res) => {
