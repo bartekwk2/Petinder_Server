@@ -57,6 +57,24 @@ router.get('/getUserData', async (req, res) => {
     }
   })
 
+  router.get('/getUserShortData', async (req, res) => {
+    const { id } = req.query;
+    try {
+      let user = await User
+      .findById(id).select('name photosRef')
+      res.status(200).json({
+        success: true,
+        user: user,
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
+
   router.get('/myPetsType',async(req,res)=>{
     const {id,typePet} = req.query
     try{
