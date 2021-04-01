@@ -110,7 +110,12 @@ router.post("/registerPet",
       }else{
         petBreedChosen = petBreed
       }
-      console.log(petBreedChosen)
+      console.log(typeOfPetOwner)
+      console.log(typeOfPet)
+
+      if(typeof typeOfPet == 'undefined'){
+        console.log('here')
+      }
 
       let pet = await Pet
       .find({
@@ -123,11 +128,11 @@ router.post("/registerPet",
             },
           },
         },
-        typeOfPet : typeOfPet?typeOfPet: { $in: [0,1,2,3,4,5,6,7] },
-        typeOfPetOwner : typeOfPetOwner?typeOfPetOwner : {$in: [0,1,2]},
+        typeOfPet : typeof typeOfPet != 'undefined' ?typeOfPet: { $in: [0,1,2,3,4,5,6,7] },
+        typeOfPetOwner : typeof typeOfPetOwner  != 'undefined'?typeOfPetOwner : {$in: [0,1,2]},
         age: { $gt: ageStart-1, $lt: ageStop-1 },
-        gender : gender ? gender : {$in:[0,1]},
-        petBreed : petBreed? petBreed : {$ne : petBreedChosen},
+        gender : typeof gender  != 'undefined' ? gender : {$in:[0,1]},
+        petBreed : typeof petBreed  != 'undefined'? petBreed : {$ne : petBreedChosen},
         'character.active' : checkCharacter(active),
         'character.smart': checkCharacter(smart),
         'character.loud': checkCharacter(loud),
