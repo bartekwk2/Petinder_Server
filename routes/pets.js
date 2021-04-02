@@ -104,19 +104,6 @@ router.post("/registerPet",
 
     const {page = 1,limit = 10} = req.query
     try {
-      var petBreedChosen
-      if(petBreed==null){
-        petBreedChosen = "notGiven"
-      }else{
-        petBreedChosen = petBreed
-      }
-      console.log(typeOfPetOwner)
-      console.log(typeOfPet)
-
-      if(typeof typeOfPet == 'undefined'){
-        console.log('here')
-      }
-
       let pet = await Pet
       .find({
         location: {
@@ -132,7 +119,7 @@ router.post("/registerPet",
         typeOfPetOwner : typeof typeOfPetOwner  != 'undefined'?typeOfPetOwner : {$in: [0,1,2]},
         age: { $gt: ageStart-1, $lt: ageStop-1 },
         gender : typeof gender  != 'undefined' ? gender : {$in:[0,1]},
-        petBreed : typeof petBreed  != 'undefined'? petBreed : {$ne : petBreedChosen},
+        petBreed : typeof petBreed  != 'undefined'? petBreed : {$ne : 'notGiven'},
         'character.active' : checkCharacter(active),
         'character.smart': checkCharacter(smart),
         'character.loud': checkCharacter(loud),
