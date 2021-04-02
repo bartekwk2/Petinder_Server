@@ -8,13 +8,14 @@ router.post("/registerPet",
       try {
         const { name, shelterId,typeOfPet,typeOfPetOwner,dateOfAdd,age,
           vaccinates,character,imageRefs,location,desc,vaccinateFirstCheck,vaccinateSecondCheck,
-          vaccinateThirdCheck} = req.body;
+          vaccinateThirdCheck,gender} = req.body;
           let pet = new Pet({
             name : name,
             shelter :shelterId,
             typeOfPet : typeOfPet,
             typeOfPetOwner : typeOfPetOwner,
             dateOfAdd : dateOfAdd,
+            gender : gender,
             age : age,
             desc : desc,
             vaccinates : vaccinates,
