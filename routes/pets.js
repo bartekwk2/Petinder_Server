@@ -1,6 +1,7 @@
 const Pet = require('../models/pet')
 const express = require('express')
 const router = express.Router()
+const User = require('../models/user')
 
 // Pet Registration
 router.post("/registerPet",
