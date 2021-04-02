@@ -2,6 +2,7 @@ const Pet = require('../models/pet')
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
+const mongoose = require('mongoose')
 
 // Pet Registration
 router.post("/registerPet",
@@ -28,10 +29,15 @@ router.post("/registerPet",
             numberOfViews : 0,
             location: location
         });
+
+        let userPet ={
+          'petType' : "Own",
+          'petRef' : mongoose.Types.ObjectId(pet.id)
+        }
           await pet.save();
           await User.findOneAndUpdate(
         {_id:id},
-        {$push : {pets:pet.id}}
+        {$push : {pets:userPet}}
       )
           res.status(200).json({
             success: true,
