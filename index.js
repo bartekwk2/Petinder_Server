@@ -35,8 +35,10 @@ app.use(routesPet)
 app.use(routesChat)
 app.use(routesConst)
 
-
 app.use(passport.initialize())
+
+const User = require('./models/user')
+const Pet = require('./models/pet')
 
 //require('./config/passport')(passport)
 
@@ -128,23 +130,25 @@ const util = require("util");
       const uploadFile33 = async (req, res) => {
         try {
           await uploadFilesMiddleware(req, res);
-      
           console.log(req.file.filename);
           if (req.file == undefined) {
             return res.send(`You must select a file.`);
           }else{
-            var newImage = Image({
-              filename : req.file.filename,
-              userID : req.body.userID
-            })
-            newImage.save(function (err, newUser) {
-              if (err) {
-                  return res.json({success: false, msg: 'Failed to save'})
-              }
-              else {
-                  return res.json({success: true, msg: 'Successfully saved'})
-              }
-          })}
+            try{
+              await Pet.updateOne(
+                {_id: req.body.userID},
+                {$push : {imageRefs : req.file.filename}}
+              )
+              return res.status(200).json({
+               success: true,
+             })
+            }catch(err){
+              return res.status(500).json({
+                success: false,
+                error: "Internal Server Error",
+              })
+            }
+          }
         } catch (error) {
           console.log(error);
           return res.send(`Error when trying upload image: ${error}`);
@@ -152,7 +156,7 @@ const util = require("util");
       }
 
       app.post("/upload3", uploadFile33);
-      
+
     
 
     // Upload multiple files
@@ -281,7 +285,7 @@ const server = app.listen(PORT, console.log(`Server running in ${process.env.NOD
 const socketIO = require('socket.io')
 const io = socketIO(server)
 const Individaul = require('./models/chat/individualConversation')
-const User = require('./models/user')
+
 
 
 io.on('connection', socket => {
