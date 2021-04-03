@@ -262,6 +262,27 @@ router.get('/getUserData', async (req, res) => {
     }
   })
 
+  router.put('/makeLastMessageSeen',async(req,res)=>{
+    const {id,friendID} = req.body;
+    try{
+      let user = await User
+      .findOneAndUpdate(
+        {_id:id,
+        'friends.friendRef' : friendID},
+        {$set : {'friends.$.lastMsg.hasSeen' : true}}
+      )
+      res.status(200).json({
+        success: true,
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
+
   router.get('/getLatestMessages',async (req,res)=> {
     const {myId} = req.query
     try{
