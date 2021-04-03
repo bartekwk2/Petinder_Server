@@ -323,6 +323,8 @@ io.on('connection', socket => {
           { users : {$all : [sender, receiver]}},
           {$addToSet : {messages : messageNow}})
 
+    messageNow["hasSeen"] = false
+
      await User
           .findOneAndUpdate(
             {_id:sender,

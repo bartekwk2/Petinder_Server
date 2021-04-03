@@ -26,8 +26,10 @@ const PetSchema = mongoose.Schema({
     numberOfViews :{
         type : Number,
     },
-
     desc :{
+        type:String
+    },
+    city :{
         type:String
     },
     age : {

@@ -55,6 +55,9 @@ var userSchema = new Schema({
         dateOfSend : {
             type : String,
         },
+        hasSeen : {
+            type : Boolean
+        }
     }
 }]
 
