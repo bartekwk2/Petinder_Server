@@ -289,7 +289,7 @@ router.get('/getUserData', async (req, res) => {
       await User
       .findById(myId)
       .select('friends')
-      .populate('friends.friendRef','name photosRef')
+      .populate('friends.friendRef','name photosRef isActive lastActive')
       .exec(function (err,results){
         if(err){
           console.log(err)
