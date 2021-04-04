@@ -263,16 +263,7 @@ const util = require("util");
    });
 
 
- // Sending notification
 
-  const sendNotif = require('./messaging/firebaseNotifications')
-  let body = {}
-  body["message"]= "Hello World99"
-  body["senderID"] = "6058b8254ae480000404846f"
-  body["receiverID"]= "60131f135fe3d934ccc76082"
-  body["dateOfSend"]= "2021-23-03 15:00"
-  
-  sendNotif(JSON.stringify(body))
 
 const PORT = process.env.PORT || 3000
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
@@ -285,6 +276,7 @@ const server = app.listen(PORT, console.log(`Server running in ${process.env.NOD
 const socketIO = require('socket.io')
 const io = socketIO(server)
 const Individaul = require('./models/chat/individualConversation')
+const sendNotif = require('./messaging/firebaseNotifications')
 
 
 
@@ -317,6 +309,8 @@ io.on('connection', socket => {
         receiverID : receiverChatID,
         dateOfSend : dateOfSend
       }
+
+      sendNotif(content,receiverChatID)
 
     await Individaul
       .findOneAndUpdate(
