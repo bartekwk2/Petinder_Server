@@ -23,7 +23,7 @@ router.get('/getMessages',async (req,res)=>{
 
                 }
             })
-            .slice('messages',-5)
+            .slice('messages',-15)
 
             res.status(200).json({
                 success: true,
