@@ -7,11 +7,13 @@ const mongoose = require('mongoose')
 
 router.get('/getMessages',async (req,res)=>{ 
 
-    const { userSenderID, userReceiverID,} = req.query;
+    const { userSenderID, userReceiverID,page = 0,limit = 10} = req.query;
+    let pageOut = parseInt(page)
+    let limitOut = parseInt(limit)
     try{
         let conversation = await Individaul.aggregate([
             { $match: {users : {$all : [mongoose.Types.ObjectId(userSenderID),mongoose.Types.ObjectId(userReceiverID)]}}},
-            { "$project": { "users":1,"messages": {$slice : [{$reverseArray:"$messages"},0,2]}
+            { "$project": { "users":1,"messages": {$slice : [{$reverseArray:"$messages"},pageOut*limitOut,limitOut]}
              }} 
         ])
         if(!conversation.length){
