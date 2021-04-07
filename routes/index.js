@@ -169,8 +169,6 @@ try{
     }
   })
 
-
-  
   router.post('/updatePetType',async (req, res) => {
     const { id,petID, petType } = req.body;
     try {
@@ -191,10 +189,6 @@ try{
       })
     }
   })
-
-
-
-
 
   router.get('/getNearestPetsSwipeScreen',async (req,res)=>{
     const { id,longitude, latitude, distance,page = 1,limit = 10 } = req.query;
@@ -275,24 +269,51 @@ try{
     }
   })
 
+router.get('/checkIfFriends',async(req,res)=>{
+    const {myID,friendID} = req.query
+try{
+  let user = await User
+  .findOne({_id : myID})
+  .select({ friends: { $elemMatch: { friendRef: friendID } }})
+
+  if(user.friends.length > 0){
+    res.status(200).json({
+      success: true,
+      user: user,
+    })
+  }else{
+    await friendAdding(myID,friendID,req,res)
+  }
+} catch (err)  {
+  console.log(err);
+  return res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
+  })
+}})
+
   router.put("/addFriend", async (req, res) => {
+    const {myId,friendID} = req.body
+    await friendAdding(myId,friendID,req,res)
+  })
+
+  async function friendAdding(myId,friendID,req,res){
     const session = await User.startSession()
     session.startTransaction()
     try {
-     const {myId,friendID} = req.body
      await  User.findOneAndUpdate(
       { _id: myId }, 
       { $push: { 'friends': {'friendRef':friendID}  } }).session(session)
-
+  
      await  User.findOneAndUpdate(
         { _id: friendID }, 
         { $push: { 'friends':{ 'friendRef' : myId } } }).session(session)
-
+  
+        res.status(200).json({
+          success: true,
+        })
     await session.commitTransaction()
     session.endSession()
-    res.status(200).json({
-      success: true,
-    })
     } catch (err) {
       await session.abortTransaction();
       session.endSession()
@@ -302,7 +323,7 @@ try{
         error: "Internal Server Error",
       })
     }
-  })
+  }
 
   router.put('/updateLatestMessages',async (req, res) => {
     const { id,friendID,message } = req.body;
