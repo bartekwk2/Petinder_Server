@@ -8,13 +8,13 @@ const mongoose = require('mongoose')
 router.post("/registerPet",
     async (req, res) => {
       try {
-        const { id,name, shelterId,typeOfPet,typeOfPetOwner,dateOfAdd,age,
+        const { id,name,typeOfPet,typeOfPetOwner,dateOfAdd,age,
           vaccinates,character,imageRefs,location,desc,vaccinateFirstCheck,vaccinateSecondCheck,
           vaccinateThirdCheck,gender,city} = req.body;
           let pet = new Pet({
             name : name,
             city : city,
-            shelter :shelterId,
+            userID :id,
             typeOfPet : typeOfPet,
             typeOfPetOwner : typeOfPetOwner,
             dateOfAdd : dateOfAdd,

@@ -6,10 +6,9 @@ const PetSchema = mongoose.Schema({
         type : String,
         required: true,
     },
-    shelter : { 
+    userID : { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Shelter',
-        required : false,
+        ref: 'User',
     },
     typeOfPetOwner : {
         type : Number,
