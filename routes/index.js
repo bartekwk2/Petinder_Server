@@ -132,14 +132,13 @@ try{
   router.post('/addPetToUser',async (req, res) => {
     const { id,pet } = req.body;
     try {
-      let user = await User
+     await User
       .findOneAndUpdate(
         {_id:id},
         {$push : {pets:pet}}
       )
       res.status(200).json({
         success: true,
-        user: user,
       })
     } catch (err) {
       console.log(err);
@@ -149,6 +148,53 @@ try{
       })
     }
   })
+
+  router.post('/removePetFromUser',async (req, res) => {
+    const { id,petID } = req.body;
+    try {
+      await User
+      .findOneAndUpdate(
+        {_id:id},
+        {$pull : {pets : {petRef : petID}}}
+      )
+      res.status(200).json({
+        success: true,
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
+
+
+  
+  router.post('/updatePetType',async (req, res) => {
+    const { id,petID, petType } = req.body;
+    try {
+      await User
+      .findOneAndUpdate(
+        {_id:id},
+        {$set: {'pets.$[outer].petType': petType} },
+        { "arrayFilters": [{ "outer.petRef": petID }]},
+      )
+      res.status(200).json({
+        success: true,
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      })
+    }
+  })
+
+
+
+
 
   router.get('/getNearestPetsSwipeScreen',async (req,res)=>{
     const { id,longitude, latitude, distance,page = 1,limit = 10 } = req.query;
