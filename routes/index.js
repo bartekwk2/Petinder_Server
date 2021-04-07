@@ -111,6 +111,24 @@ router.get('/getUserData', async (req, res) => {
     }
   })
 
+router.get('/checkIfLiked',async(req,res)=>{
+    const {myID,petID} = req.query
+try{
+  let user = await User
+  .findOne({_id : myID})
+  .select({ pets: { $elemMatch: { petRef: petID } }})
+  res.status(200).json({
+    success: true,
+    user: user,
+  })
+} catch (err) {
+  console.log(err);
+  return res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
+  })
+}})
+
   router.post('/addPetToUser',async (req, res) => {
     const { id,pet } = req.body;
     try {
