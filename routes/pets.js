@@ -165,11 +165,11 @@ router.post("/registerPet",
       return {$gt:-1}
     }else{
       switch(trait){
-        case 0 : 
+        case 2 : 
           return {$gte: 1, $lte: 2}
         case 1 :
           return {$gte: 2.5, $lte: 3.5}
-        case 2 :
+        case 0 :
           return {$gte: 4, $lte: 5}
       }
     }
