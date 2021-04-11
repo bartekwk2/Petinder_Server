@@ -204,8 +204,6 @@ const util = require("util");
 
 
 
-
-
     //Get image
 
         let gfs
@@ -252,7 +250,7 @@ const util = require("util");
     //Delete photo
     
     app.post('/files/del', (req, res) => {
-      const obj_id = new mongoose.Types.ObjectId(req.body.id );
+      const obj_id = new mongoose.Types.ObjectId(req.body.id);
       gfs.delete( obj_id ,(err, gridStore) => {
                if (err) {
                    return res.status(404).json({ err });
@@ -262,6 +260,60 @@ const util = require("util");
            });
    });
 
+
+
+    async function deleteOnePhoto(fileName){
+        try{
+         await gfs
+          .find({
+            filename: fileName,
+          }).next(function(err, doc) {
+            if (doc) {
+              const obj_id = new mongoose.Types.ObjectId(doc._id)
+              gfs.delete( obj_id ,(err, _) => {
+                if (err) {
+                    return res.status(404).json({ err });
+                }
+            });
+            }else{
+              res.status(500).json({
+                success: false,
+                error: "Internal Server Error",
+              })
+            }
+        })
+         }catch (error) {
+          console.log(error);
+          res.status(500).json({
+            success: false,
+            error: "Internal Server Error",
+          })
+        }
+      }
+
+      app.get('/petDelete',async (req,res)=>{
+        try{
+          const {id} = req.query
+          let pet = await Pet.findOne({_id:id})
+          let imageRefs = pet.imageRefs
+          imageRefs.forEach(async function(onePhoto){
+            await deleteOnePhoto(onePhoto)
+          })
+          await Pet.findOne({_id:id}).remove()
+          await User.updateMany(
+            { pets: { $elemMatch: { petRef: id }}},
+            {$pull : {pets : {petRef :id}}})
+          res.status(200).json({
+            success : true
+          })
+        }catch (error) {
+          console.log(error);
+          res.status(500).json({
+            success: false,
+            error: "Internal Server Error",
+          })
+        }
+      })
 
 
 

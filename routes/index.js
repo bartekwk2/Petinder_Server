@@ -116,7 +116,7 @@ router.get('/checkIfLiked',async(req,res)=>{
 try{
   let user = await User
   .findOne({_id : myID})
-  .select({ pets: { $elemMatch: { petRef: petID } }})
+  .select({ pets: { $elemMatch: { petRef: petID }}})
   res.status(200).json({
     success: true,
     user: user,

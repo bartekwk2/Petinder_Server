@@ -113,7 +113,7 @@ router.post("/registerPet",
   // Getting all nearest pets with queries 
   router.post("/petsNearbyQueries", async (req, res) => {
     const { longitude, latitude, distance,typeOfPet,typeOfPetOwner,ageStart,ageStop,
-      active,smart,loud,likesEating,familyFriendly,peaceful,inteligence,wellBehaved,knowTricks,fearfull,gender,petBreed} = req.body;
+      active,smart,loud,likesEating,familyFriendly,peaceful,wellBehaved,knowTricks,fearfull,gender,petBreed} = req.body;
 
     const {page = 1,limit = 10} = req.query
     try {
@@ -139,7 +139,6 @@ router.post("/registerPet",
         'character.likesEating': checkCharacter(likesEating),
         'character.familyFriendly': checkCharacter(familyFriendly),
         'character.peaceful': checkCharacter(peaceful),
-        'character.inteligence': checkCharacter(inteligence),
         'character.wellBehaved': checkCharacter(wellBehaved),
         'character.knowTricks': checkCharacter(knowTricks),
         'character.fearfull': checkCharacter(fearfull) 
@@ -229,21 +228,6 @@ router.post("/registerPet",
     }
   })
 
-  router.get("/laterDelete",async (req,res)=>{
-    try{
-      let pet = await Pet.findById("604783c4ccc2944444f22d4d")
-      res.status(200).json({
-        success: true,
-        pet: pet,
-      })
-    }catch (err) {
-      console.log(err);
-      return res.status(500).json({
-        success: false,
-        message: "Internal Server Error",
-      })
-    }
-  })
   
 
   module.exports = router

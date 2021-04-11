@@ -71,9 +71,6 @@ const PetSchema = mongoose.Schema({
         peaceful : {
             type : mongoose.Decimal128
         },
-        inteligence : {
-            type : mongoose.Decimal128
-        },
         wellBehaved : {
             type : mongoose.Decimal128
         },

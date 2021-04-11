@@ -4,8 +4,6 @@ const Pet = require('../models/pet')
 const express = require('express')
 const router = express.Router()
 
- 
-
 
 //Shelter registration
 router.post("/registerShelter",
@@ -45,8 +43,6 @@ router.post("/registerShelter",
 
 
 // Getting all nearest shelters
-
-//co jest
 
   router.post("/sheltersNearby", async (req, res) => {
     
