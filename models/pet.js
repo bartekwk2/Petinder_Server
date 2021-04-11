@@ -74,10 +74,10 @@ const PetSchema = mongoose.Schema({
         wellBehaved : {
             type : mongoose.Decimal128
         },
-        knowTricks : {
+        fearfull : {
             type: mongoose.Decimal128
         },
-        fearfull : {
+        indipendent : {
             type: mongoose.Decimal128
         }
     },

@@ -113,7 +113,7 @@ router.post("/registerPet",
   // Getting all nearest pets with queries 
   router.post("/petsNearbyQueries", async (req, res) => {
     const { longitude, latitude, distance,typeOfPet,typeOfPetOwner,ageStart,ageStop,
-      active,smart,loud,likesEating,familyFriendly,peaceful,wellBehaved,knowTricks,fearfull,gender,petBreed} = req.body;
+      active,smart,loud,likesEating,familyFriendly,peaceful,wellBehaved,indipendent,fearfull,gender,petBreed} = req.body;
 
     const {page = 1,limit = 10} = req.query
     try {
@@ -140,7 +140,7 @@ router.post("/registerPet",
         'character.familyFriendly': checkCharacter(familyFriendly),
         'character.peaceful': checkCharacter(peaceful),
         'character.wellBehaved': checkCharacter(wellBehaved),
-        'character.knowTricks': checkCharacter(knowTricks),
+        'character.indipendent': checkCharacter(indipendent),
         'character.fearfull': checkCharacter(fearfull) 
       })
       .limit(limit * 1)
