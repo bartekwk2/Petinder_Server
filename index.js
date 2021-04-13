@@ -362,7 +362,7 @@ io.on('connection', socket => {
         dateOfSend : dateOfSend
       }
 
-      sendNotif(content,receiverChatID)
+      sendNotif(content,senderChatID)
 
     await Individaul
       .findOneAndUpdate(
