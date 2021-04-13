@@ -10,9 +10,9 @@ admin.initializeApp({
 
 
   // Send notification to topic
-async function sendNotification(message,receiverID){
+async function sendNotification(message,receiverID,senderID){
     try{
-        let userNameAll = await User.findOne({_id:receiverID}).select('name')
+        let userNameAll = await User.findOne({_id:senderID}).select('name')
         let userName = userNameAll["name"]
 
         if(userName.includes("@")){
