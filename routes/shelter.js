@@ -113,8 +113,6 @@ router.post("/registerShelter",
       }
     })
 
-
-
     // Getting all pets from the shelter
     router.get("/findAllPetsFromShelter/:id", async (req, res) => {
       try {
