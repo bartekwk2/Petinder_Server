@@ -11,7 +11,6 @@ przeszukiwane nałożone zostały indeksy w celu przyspieszenia querowania. Has�
 rzeczywistym zostały wykorzystane sockety. Przesyłanie zdjęć realizowane za pomocą biblioteki multer.
 
 <h3>Zastosowane technologie oraz biblioteki: </h3>
-<br>
 <ul>
   <li>mongoose</li>
   <li>express, cors, bodyParser </li>
@@ -22,7 +21,8 @@ rzeczywistym zostały wykorzystane sockety. Przesyłanie zdjęć realizowane za 
   <li>firebase-admin</li>
 </ul>
 
- </h3>
+<h3>Struktura bazy danych: </h3>
+<br>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/77553097/115602122-dd0d2e00-a2de-11eb-8c81-8d4f27e806d8.png" width="250" title="hover text">
   <img src="https://user-images.githubusercontent.com/77553097/115602219-fa41fc80-a2de-11eb-923e-4453bd23ae28.png" width="245" title="hover text">
