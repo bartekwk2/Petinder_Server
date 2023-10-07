@@ -1,5 +1,4 @@
 node_modules/
-config/dbconfig.js
 messaging/adoptionSDK.json
 uploads
 package-lock.json
